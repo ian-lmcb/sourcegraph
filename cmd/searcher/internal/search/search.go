@@ -12,6 +12,7 @@
 package search
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -20,6 +21,7 @@ import (
 	"strconv"
 	"time"
 
+	zoektquery "github.com/google/zoekt/query"
 	"github.com/opentracing/opentracing-go/ext"
 	otlog "github.com/opentracing/opentracing-go/log"
 	"github.com/prometheus/client_golang/prometheus"
@@ -27,9 +29,11 @@ import (
 	nettrace "golang.org/x/net/trace"
 
 	"github.com/sourcegraph/sourcegraph/cmd/searcher/protocol"
+	"github.com/sourcegraph/sourcegraph/internal/api"
 	"github.com/sourcegraph/sourcegraph/internal/errcode"
 	"github.com/sourcegraph/sourcegraph/internal/search/searcher"
 	streamhttp "github.com/sourcegraph/sourcegraph/internal/search/streaming/http"
+	zoektutil "github.com/sourcegraph/sourcegraph/internal/search/zoekt"
 	"github.com/sourcegraph/sourcegraph/internal/trace/ot"
 	"github.com/sourcegraph/sourcegraph/lib/errors"
 	"github.com/sourcegraph/sourcegraph/lib/log"
@@ -47,6 +51,13 @@ const (
 type Service struct {
 	Store *Store
 	Log   log.Logger
+
+	// GitOutput returns the stdout of running git with args against the repo.
+	//
+	// TODO pick a design which doesn't directly depend on Command. Probably
+	// adding a relevant function to the gitserver client. This is only used
+	// by FeatHybrid.
+	GitOutput func(ctx context.Context, repo api.RepoName, args ...string) ([]byte, error)
 }
 
 // ServeHTTP handles HTTP based search requests
@@ -120,6 +131,8 @@ func (s *Service) streamSearch(ctx context.Context, w http.ResponseWriter, p pro
 func (s *Service) search(ctx context.Context, p *protocol.Request, sender matchSender) (err error) {
 	tr := nettrace.New("search", fmt.Sprintf("%s@%s", p.Repo, p.Commit))
 	tr.LazyPrintf("%s", p.Pattern)
+
+	// TODO observability around FeatHybrid
 
 	span, ctx := ot.StartSpanFromContext(ctx, "Search")
 	ext.Component.Set(span, "service")
@@ -215,6 +228,95 @@ func (s *Service) search(ctx context.Context, p *protocol.Request, sender matchS
 		}
 		zf, err := s.Store.zipCache.Get(path)
 		return path, zf, err
+	}
+
+	hybrid := !p.IsStructuralPat && p.FeatHybrid
+	if hybrid {
+		// TODO which ctx?
+		indexed, ok, err := zoektIndexedCommit(ctx, p.IndexerEndpoints, p.Repo)
+		if err != nil {
+			return err
+		}
+		// TODO from this point onwards we should cache keyed by indexed + p.Commit
+		if ok {
+			out, err := s.GitOutput(ctx, p.Repo, "diff", "-z", "--name-status", "--no-renames", string(p.Commit), string(indexed))
+			if err != nil {
+				return err
+			}
+
+			slices := bytes.Split(bytes.TrimRight(out, "\x00"), []byte{0})
+			if len(slices)%2 != 0 {
+				return errors.New("uneven pairs")
+			}
+
+			var unindexedSearch []string
+			var indexedIgnore []string
+			for i := 0; i < len(slices); i += 2 {
+				path := string(slices[i+1])
+				switch slices[i][0] {
+				case 'A':
+					unindexedSearch = append(unindexedSearch, path)
+				case 'M':
+					unindexedSearch = append(unindexedSearch, path)
+					indexedIgnore = append(indexedIgnore, path)
+				case 'D':
+					indexedIgnore = append(indexedIgnore, path)
+				}
+			}
+
+			{
+				// TODO race between calling List and searching now. Index may have changed.
+				qText, err := zoektCompile(&p.PatternInfo)
+				if err != nil {
+					return errors.Wrap(err, "failed to compile query for zoekt")
+				}
+				q := zoektquery.Simplify(zoektquery.NewAnd(
+					zoektquery.NewSingleBranchesRepos("HEAD", uint32(p.RepoID)),
+					qText,
+					zoektIgnorePaths(indexedIgnore),
+				))
+
+				k := zoektutil.ResultCountFactor(1, int32(p.Limit), false)
+				opts := zoektutil.SearchOpts(ctx, k, int32(p.Limit), nil)
+				if deadline, ok := ctx.Deadline(); ok {
+					opts.MaxWallTime = time.Until(deadline) - 100*time.Millisecond
+				}
+
+				client := getZoektClient(p.IndexerEndpoints)
+				res, err := client.Search(ctx, q, &opts)
+				if err != nil {
+					return err
+				}
+				for _, fm := range res.Files {
+					var lineMatches []protocol.LineMatch
+					var matchCount int
+					for _, lm := range fm.LineMatches {
+						var offs [][2]int
+						for _, lf := range lm.LineFragments {
+							offs = append(offs, [2]int{lf.LineOffset, lf.MatchLength})
+						}
+						lineMatches = append(lineMatches, protocol.LineMatch{
+							Preview:          string(lm.Line),
+							LineNumber:       lm.LineNumber - 1,
+							OffsetAndLengths: offs,
+						})
+						matchCount += len(offs)
+						if len(offs) == 0 {
+							matchCount++
+						}
+					}
+					sender.Send(protocol.FileMatch{
+						Path:        fm.FileName,
+						LineMatches: lineMatches,
+						MatchCount:  matchCount,
+					})
+				}
+
+				return nil
+			}
+
+			// TODO fetch paths unindexedSearch and search them
+		}
 	}
 
 	zipPath, zf, err := getZipFileWithRetry(getZf)
