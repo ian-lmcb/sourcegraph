@@ -47,15 +47,15 @@ export const proxySubscribable = <T>(subscribable: Subscribable<T>): ProxySubscr
 
 export function providerResultToObservable<T, R = T>(
     result: ProviderResult<T>,
-    mapFunc: (value: T | undefined | null) => R = identity
+    mapFunction: (value: T | undefined | null) => R = identity
 ): Observable<R> {
     let observable: Observable<R>
     if (result && (isPromiseLike(result) || isObservable<T>(result) || isSubscribable(result))) {
-        observable = from(result).pipe(map(mapFunc))
+        observable = from(result).pipe(map(mapFunction))
     } else if (isAsyncIterable(result)) {
-        observable = observableFromAsyncIterable(result).pipe(map(mapFunc))
+        observable = observableFromAsyncIterable(result).pipe(map(mapFunction))
     } else {
-        observable = of(mapFunc(result))
+        observable = of(mapFunction(result))
     }
     return observable
 }

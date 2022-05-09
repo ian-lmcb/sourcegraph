@@ -41,10 +41,10 @@ export function browserPortToMessagePort(
             return
         }
         const id = incomingPort.name.slice(prefix.length)
-        const waitingFn = waitingForPorts.get(id)
-        if (waitingFn) {
+        const waitingFunction = waitingForPorts.get(id)
+        if (waitingFunction) {
             waitingForPorts.delete(id)
-            waitingFn(incomingPort)
+            waitingFunction(incomingPort)
         } else {
             connectedBrowserPorts.set(id, incomingPort)
         }

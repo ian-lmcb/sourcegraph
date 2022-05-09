@@ -7,7 +7,7 @@
  * function
  */
 export function memoizeAsync<P, T>(
-    func: (parameters: P) => Promise<T>,
+    function_: (parameters: P) => Promise<T>,
     toKey: (parameters: P) => string
 ): (parameters: P) => Promise<T> {
     const valuesCache = new Map<string, T>()
@@ -27,7 +27,7 @@ export function memoizeAsync<P, T>(
             return requestHit
         }
 
-        const promise = func(parameters)
+        const promise = function_(parameters)
 
         promise
             .then(result => {

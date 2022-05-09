@@ -38,9 +38,9 @@ export function extractFromLines(fileContent: string, ...patterns: RegExp[]): st
 export function filterResultsByImports<T extends Result>(
     results: T[],
     importPaths: string[],
-    func: (result: T, importPath: string) => boolean
+    function_: (result: T, importPath: string) => boolean
 ): T[] {
-    return filterResults(results, result => importPaths.some(importPath => func(result, importPath)))
+    return filterResults(results, result => importPaths.some(importPath => function_(result, importPath)))
 }
 
 /**
@@ -50,8 +50,8 @@ export function filterResultsByImports<T extends Result>(
  * @param results A list of results to filter.
  * @param func The filter function.
  */
-export function filterResults<T extends Result>(results: T[], func: (result: T) => boolean): T[] {
-    const filteredResults = results.filter(result => func(result))
+export function filterResults<T extends Result>(results: T[], function_: (result: T) => boolean): T[] {
+    const filteredResults = results.filter(result => function_(result))
 
     // If we filtered out all results, fall back to whatever fuzzy
     // results we had in the first place. It's better than nothing.

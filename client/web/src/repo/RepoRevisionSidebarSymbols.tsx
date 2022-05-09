@@ -38,12 +38,12 @@ const SymbolNode: React.FunctionComponent<React.PropsWithChildren<SymbolNodeProp
     onHandleClick,
     isActive,
 }) => {
-    const isActiveFunc = (): boolean => isActive
+    const isActiveFunction = (): boolean => isActive
     return (
         <li className={styles.repoRevisionSidebarSymbolsNode}>
             <NavLink
                 to={node.url}
-                isActive={isActiveFunc}
+                isActive={isActiveFunction}
                 className={classNames('test-symbol-link', styles.link)}
                 activeClassName={styles.linkActive}
                 onClick={onHandleClick}

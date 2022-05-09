@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react'
 
-import { isMacPlatform as isMacPlatformFn } from '@sourcegraph/common'
+import { isMacPlatform as isMacPlatformFunction } from '@sourcegraph/common'
 import { isInputElement } from '@sourcegraph/shared/src/util/dom'
 
 import { BlockDirection, BlockProps } from '..'
@@ -48,7 +48,7 @@ export function useNotebookEventHandlers({
         [notebook, commandPaletteInputReference, setSelectedBlockId]
     )
 
-    const isMacPlatform = useMemo(() => isMacPlatformFn(), [])
+    const isMacPlatform = useMemo(() => isMacPlatformFunction(), [])
 
     useEffect(() => {
         const handleMouseDownUpOrFocusIn = (event: MouseEvent | FocusEvent): void => {

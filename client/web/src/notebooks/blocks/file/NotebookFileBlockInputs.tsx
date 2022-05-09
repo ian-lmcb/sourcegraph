@@ -5,7 +5,7 @@ import { debounce } from 'lodash'
 import InfoCircleOutlineIcon from 'mdi-react/InfoCircleOutlineIcon'
 import * as Monaco from 'monaco-editor'
 
-import { isMacPlatform as isMacPlatformFn } from '@sourcegraph/common'
+import { isMacPlatform as isMacPlatformFunction } from '@sourcegraph/common'
 import { IHighlightLineRange } from '@sourcegraph/shared/src/schema'
 import { PathMatch } from '@sourcegraph/shared/src/search/stream'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
@@ -84,7 +84,7 @@ export const NotebookFileBlockInputs: React.FunctionComponent<
         [onFileSuggestionSelected]
     )
 
-    const isMacPlatform = useMemo(() => isMacPlatformFn(), [])
+    const isMacPlatform = useMemo(() => isMacPlatformFunction(), [])
 
     return (
         <div className={styles.fileBlockInputs}>

@@ -22,7 +22,7 @@ export function resetAllMemoizationCaches(): void {
  * the first argument provided to the memoized function.
  */
 export function memoizeObservable<P, T>(
-    func: (parameters: P) => Observable<T>,
+    function_: (parameters: P) => Observable<T>,
     resolver: (parameters: P) => string
 ): (parameters: P, force?: boolean) => Observable<T> {
     const cache = new Map<string, Observable<T>>()
@@ -39,7 +39,7 @@ export function memoizeObservable<P, T>(
         if (!force && hit) {
             return hit
         }
-        const observable = func(parameters).pipe(
+        const observable = function_(parameters).pipe(
             publishReplay(),
             refCount(),
             tap({

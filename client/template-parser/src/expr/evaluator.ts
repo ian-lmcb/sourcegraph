@@ -139,10 +139,10 @@ function exec<C>(node: ExpressionNode, context: Context<C>): any {
 
     if ('FunctionCall' in node) {
         const expression = node.FunctionCall
-        const func = FUNCS[expression.name]
-        if (typeof func === 'function') {
+        const function_ = FUNCS[expression.name]
+        if (typeof function_ === 'function') {
             const args = expression.args.map(argument => exec(argument, context))
-            return func(...args)
+            return function_(...args)
         }
         throw new SyntaxError(`Undefined function: ${expression.name}`)
     }

@@ -65,7 +65,7 @@ type SelectTextMethod = 'selectall' | 'keyboard'
  */
 type EnterTextMethod = 'type' | 'paste'
 
-interface PageFnOptions {
+interface PageFunctionOptions {
     timeout?: number
 }
 
@@ -88,7 +88,7 @@ interface FindElementOptions {
     /**
      * Specifies whether to wait (and how long) for the element to appear.
      */
-    wait?: PageFnOptions | boolean
+    wait?: PageFunctionOptions | boolean
 }
 
 function findElementRegexpStrings(
@@ -725,7 +725,7 @@ export class Driver {
         )
     }
 
-    public async waitUntilURL(url: string, options: PageFnOptions = {}): Promise<void> {
+    public async waitUntilURL(url: string, options: PageFunctionOptions = {}): Promise<void> {
         await this.page.waitForFunction((url: string) => document.location.href === url, options, url)
     }
 }

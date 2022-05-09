@@ -6,10 +6,10 @@ import { fetchStreamSuggestions } from '@sourcegraph/shared/src/search/suggestio
 
 export function fetchSuggestions<T extends RepositoryMatch | PathMatch | SymbolMatch, O>(
     query: string,
-    filterSuggestionFn: (match: SearchMatch) => match is T,
-    mapSuggestionFn: (match: T) => O
+    filterSuggestionFunction: (match: SearchMatch) => match is T,
+    mapSuggestionFunction: (match: T) => O
 ): Observable<O[]> {
     return fetchStreamSuggestions(query).pipe(
-        map(suggestions => suggestions.filter(filterSuggestionFn).map(mapSuggestionFn))
+        map(suggestions => suggestions.filter(filterSuggestionFunction).map(mapSuggestionFunction))
     )
 }

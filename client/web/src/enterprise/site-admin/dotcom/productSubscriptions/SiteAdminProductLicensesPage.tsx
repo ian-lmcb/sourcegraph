@@ -62,7 +62,7 @@ export const SiteAdminProductLicensesPage: React.FunctionComponent<React.PropsWi
 }
 
 function queryLicenses(args: { first?: number; query?: string }): Observable<GQL.IProductLicenseConnection> {
-    const vars: GQL.IProductLicensesOnDotcomQueryArguments = {
+    const variables: GQL.IProductLicensesOnDotcomQueryArguments = {
         first: args.first,
         licenseKeySubstring: args.query,
     }
@@ -84,7 +84,7 @@ function queryLicenses(args: { first?: number; query?: string }): Observable<GQL
                   }
                   ${siteAdminProductLicenseFragment}
               `,
-              vars
+              variables
           ).pipe(
               map(({ data, errors }) => {
                   if (!data || !data.dotcom || !data.dotcom.productLicenses || (errors && errors.length > 0)) {

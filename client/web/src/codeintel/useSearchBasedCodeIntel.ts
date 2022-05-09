@@ -365,7 +365,7 @@ const findSymbol = async (
 }
 
 const cache = <Arguments extends unknown[], V>(
-    func: (...args: Arguments) => V,
+    function_: (...args: Arguments) => V,
     options: LRU.Options<string, V>
 ): ((...args: Arguments) => V) => {
     const lru = new LRU<string, V>(options)
@@ -375,7 +375,7 @@ const cache = <Arguments extends unknown[], V>(
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             return lru.get(key)!
         }
-        const value = func(...args)
+        const value = function_(...args)
         lru.set(key, value)
         return value
     }

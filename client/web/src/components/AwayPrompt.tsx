@@ -5,10 +5,10 @@ import { useHistory } from 'react-router'
 
 import { Button, Modal } from '@sourcegraph/wildcard'
 
-type Fn = () => void
+type Function_ = () => void
 interface Props {
     message: string
-    when: Fn | boolean
+    when: Function_ | boolean
     header?: string
     button_ok_text?: string
     button_cancel_text?: string

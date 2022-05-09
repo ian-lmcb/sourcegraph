@@ -439,8 +439,8 @@ describe('Repository component', () => {
         ]
 
         for (const navigationTest of navigateToSymbolTests) {
-            const testFunc = navigationTest.skip ? test.skip : test
-            testFunc(navigationTest.name, async () => {
+            const testFunction = navigationTest.skip ? test.skip : test
+            testFunction(navigationTest.name, async () => {
                 const repoBaseURL = sourcegraphBaseUrl + navigationTest.repoPath + '/-'
 
                 await driver.page.goto(repoBaseURL + navigationTest.filePath)

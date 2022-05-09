@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 
-import { isMacPlatform as isMacPlatformFn } from '@sourcegraph/common'
+import { isMacPlatform as isMacPlatformFunction } from '@sourcegraph/common'
 
 export const useModifierKeyLabel = (): string => {
-    const isMacPlatform = useMemo(() => isMacPlatformFn(), [])
+    const isMacPlatform = useMemo(() => isMacPlatformFunction(), [])
     return useMemo(() => (isMacPlatform ? '⌘' : 'Ctrl'), [isMacPlatform])
 }
