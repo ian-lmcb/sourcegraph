@@ -14,7 +14,7 @@ interface TextProps extends React.HTMLAttributes<HTMLParagraphElement>, Typograp
 }
 
 export const Text = React.forwardRef(
-    ({ children, className, size, weight, as: Component = 'p', alignment, mode }, reference) => (
+    ({ children, className, size, weight, as: Component = 'p', alignment, mode, ...props }, reference) => (
         <Component
             className={classNames(
                 size === 'small' && typographyStyles.small,
@@ -23,6 +23,7 @@ export const Text = React.forwardRef(
                 mode && getModeStyle({ mode }),
                 className
             )}
+            {...props}
             ref={reference}
         >
             {children}

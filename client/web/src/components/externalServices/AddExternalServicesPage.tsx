@@ -4,7 +4,7 @@ import * as H from 'history'
 
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { useLocalStorage, Button, Link, Alert } from '@sourcegraph/wildcard'
+import { useLocalStorage, Button, Link, Alert, Typography } from '@sourcegraph/wildcard'
 
 import { Scalars } from '../../graphql-operations'
 import { PageTitle } from '../PageTitle'
@@ -84,15 +84,15 @@ export const AddExternalServicesPage: React.FunctionComponent<
             <div className="d-flex justify-content-between align-items-center mt-3 mb-3">
                 <h2 className="mb-0">Add repositories</h2>
             </div>
-            <p className="mt-2">Add repositories from one of these code hosts.</p>
+            <Typography.Text className="mt-2">Add repositories from one of these code hosts.</Typography.Text>
             {!hasDismissedPrivacyWarning && (
                 <Alert variant="info">
                     {!userID && (
-                        <p>
+                        <Typography.Text>
                             This Sourcegraph installation will never send your code, repository names, file names, or
                             any other specific code data to Sourcegraph.com or any other destination. Your code is kept
                             private on this installation.
-                        </p>
+                        </Typography.Text>
                     )}
                     <h3>This Sourcegraph installation will access your code host by:</h3>
                     <ul>
@@ -141,7 +141,7 @@ export const AddExternalServicesPage: React.FunctionComponent<
                 <>
                     <br />
                     <h2>Other connections</h2>
-                    <p className="mt-2">Add connections to non-code-host services.</p>
+                    <Typography.Text className="mt-2">Add connections to non-code-host services.</Typography.Text>
                     {Object.entries(nonCodeHostExternalServices).map(([id, externalService]) => (
                         <div className={styles.addExternalServicesPageCard} key={id}>
                             <ExternalServiceCard to={getAddURL(id)} {...externalService} />

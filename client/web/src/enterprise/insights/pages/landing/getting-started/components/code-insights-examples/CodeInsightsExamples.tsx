@@ -6,7 +6,7 @@ import { useLocation } from 'react-router'
 
 import { SyntaxHighlightedSearchQuery } from '@sourcegraph/search-ui'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { Button, Link } from '@sourcegraph/wildcard'
+import { Button, Link, Typography } from '@sourcegraph/wildcard'
 
 import * as View from '../../../../../../../views'
 import { LegendBlock, LegendItem } from '../../../../../../../views'
@@ -52,10 +52,10 @@ export const CodeInsightsExamples: React.FunctionComponent<
     return (
         <section {...otherProps}>
             <h2>Example insights</h2>
-            <p className="text-muted">
+            <Typography.Text className="text-muted">
                 Here are a few example insights to show you what the tool can do.{' '}
                 <Link to={`${pathname}${search}#code-insights-templates`}>Explore more use cases.</Link>
-            </p>
+            </Typography.Text>
 
             <div className={styles.section}>
                 <CodeInsightExample

@@ -12,7 +12,7 @@ import { QueryState } from '@sourcegraph/search'
 import { fetchTreeEntries } from '@sourcegraph/shared/src/backend/repo'
 import { displayRepoName } from '@sourcegraph/shared/src/components/RepoFileLink'
 import { RepositoryMatch } from '@sourcegraph/shared/src/search/stream'
-import { Icon, PageHeader, useObservable } from '@sourcegraph/wildcard'
+import { Icon, PageHeader, useObservable, Typography } from '@sourcegraph/wildcard'
 
 import { WebviewPageProps } from '../platform/context'
 
@@ -103,7 +103,9 @@ export const RepoView: React.FunctionComponent<React.PropsWithChildren<RepoViewP
                 path={[{ icon: SourceRepositoryIcon, text: displayRepoName(repositoryMatch.repository) }]}
                 className="mb-1 mt-3 test-tree-page-title"
             />
-            {repositoryMatch.description && <p className="mt-0 text-muted">{repositoryMatch.description}</p>}
+            {repositoryMatch.description && (
+                <Typography.Text className="mt-0 text-muted">{repositoryMatch.description}</Typography.Text>
+            )}
             <div className={classNames(styles.section)}>
                 <h4>Files and directories</h4>
                 {treeEntries === undefined ? (

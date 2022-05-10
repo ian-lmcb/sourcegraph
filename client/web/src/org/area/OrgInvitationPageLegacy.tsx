@@ -10,7 +10,7 @@ import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
 import { dataOrThrowErrors, gql } from '@sourcegraph/http-client'
 import { OrganizationInvitationResponseType } from '@sourcegraph/shared/src/graphql-operations'
 import * as GQL from '@sourcegraph/shared/src/schema'
-import { LoadingSpinner, Button, Link, Alert } from '@sourcegraph/wildcard'
+import { LoadingSpinner, Button, Link, Alert, Typography } from '@sourcegraph/wildcard'
 
 import { orgURL } from '..'
 import { refreshAuthenticatedUser, AuthenticatedUser } from '../../auth'
@@ -134,14 +134,14 @@ export const OrgInvitationPageLegacy = withAuthenticatedUser(
                                     </Link>{' '}
                                     organization.
                                 </h3>
-                                <p>
+                                <Typography.Text>
                                     <small className="text-muted">
                                         Invited by{' '}
                                         <Link to={userURL(this.props.org.viewerPendingInvitation.sender.username)}>
                                             {this.props.org.viewerPendingInvitation.sender.username}
                                         </Link>
                                     </small>
-                                </p>
+                                </Typography.Text>
                                 <div className="mt-3">
                                     <Button
                                         type="submit"

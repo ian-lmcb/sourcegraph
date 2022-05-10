@@ -11,7 +11,7 @@ import classNames from 'classnames'
 import 'storybook-addon-designs'
 
 import { highlightCodeSafe, registerHighlightContributions } from '@sourcegraph/common'
-import { TextArea, Button, ButtonGroup, Link, Select, BUTTON_SIZES, Checkbox } from '@sourcegraph/wildcard'
+import { TextArea, Button, ButtonGroup, Link, Select, BUTTON_SIZES, Checkbox, Typography } from '@sourcegraph/wildcard'
 
 import { BrandedStory } from '../../components/BrandedStory'
 import { CodeSnippet } from '../../components/CodeSnippet'
@@ -63,12 +63,12 @@ export const Code: Story = () => (
         <h1>Code</h1>
 
         <h2>Inline Code</h2>
-        <p>
+        <Typography.Text>
             Example of <code>inline code</code> that can be achieved with the <code>{'<code>'}</code> element.
-        </p>
+        </Typography.Text>
 
         <h2>Highlighted multi-line code</h2>
-        <p>Custom highlight.js themes are defined for both light and dark themes.</p>
+        <Typography.Text>Custom highlight.js themes are defined for both light and dark themes.</Typography.Text>
 
         <h3>TypeScript</h3>
         <pre>
@@ -112,15 +112,15 @@ export const Code: Story = () => (
         </pre>
 
         <h2>Keyboard shortcuts</h2>
-        <p>
+        <Typography.Text>
             Keyboard shortcuts should use <code>{'<kbd>'}</code>, not <code>{'<code>'}</code>. For example,{' '}
             <kbd>cmd</kbd>+<kbd>C</kbd> is used to copy text to the clipboard.
-        </p>
+        </Typography.Text>
         <h3>Code snippets</h3>
-        <p>
+        <Typography.Text>
             Highlighted code pieces should go in a panel separating it from the surrounding content. Use{' '}
             <code>{'<CodeSnippet />'}</code> for these uses.
-        </p>
+        </Typography.Text>
         <CodeSnippet code="property: 1" language="yaml" />
     </>
 )
@@ -130,7 +130,9 @@ export const Colors: Story = () => (
         <h1>Colors</h1>
 
         <h2>Semantic colors</h2>
-        <p>These can be used to give semantic clues and always work both in light and dark theme.</p>
+        <Typography.Text>
+            These can be used to give semantic clues and always work both in light and dark theme.
+        </Typography.Text>
         <ColorVariants />
     </>
 )
@@ -149,7 +151,7 @@ export const Layout: Story = () => (
         <h1>Layout</h1>
 
         <h2>Spacing</h2>
-        <p>
+        <Typography.Text>
             Use margin <code>m-*</code> and padding <code>p-*</code> utilities to align with the{' '}
             <Link
                 to="https://builttoadapt.io/intro-to-the-8-point-grid-system-d2573cde8632"
@@ -159,10 +161,10 @@ export const Layout: Story = () => (
                 8pt grid
             </Link>
             . When hand-writing CSS, use <code>rem</code> units in multiples of <code>0.25</code>.
-        </p>
+        </Typography.Text>
 
         <h2>One-dimensional layout</h2>
-        <p>
+        <Typography.Text>
             Use{' '}
             <Link
                 to="https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
@@ -176,7 +178,7 @@ export const Layout: Story = () => (
                 utility classes
             </Link>{' '}
             for simple flexbox layouts.
-        </p>
+        </Typography.Text>
 
         <h3>Row layout</h3>
         <h4>Equally distributed</h4>
@@ -212,9 +214,9 @@ export const Layout: Story = () => (
         </div>
 
         <h2>Two-dimensional layout</h2>
-        <p>
+        <Typography.Text>
             Use <Link to="https://learncssgrid.com/">CSS Grid</Link> for complex two-dimensional layouts.
-        </p>
+        </Typography.Text>
         <div
             className="p-2 border overflow-hidden"
             style={{
@@ -245,17 +247,17 @@ export const ButtonGroups: Story = () => {
     return (
         <>
             <h1>Button groups</h1>
-            <p>
+            <Typography.Text>
                 Group a series of buttons together on a single line with the button group.{' '}
                 <Link to="https://getbootstrap.com/docs/4.5/components/buttons/">Bootstrap documentation</Link>
-            </p>
+            </Typography.Text>
 
             <h2>Example</h2>
             <div className="mb-2">
-                <p>
+                <Typography.Text>
                     Button groups have no styles on their own, they just group buttons together. This means they can be
                     used to group any other semantic or outline button variant.
-                </p>
+                </Typography.Text>
                 <div className="mb-2">
                     <ButtonGroup aria-label="Basic example">
                         <Button variant="secondary">Left</Button>
@@ -295,9 +297,9 @@ export const ButtonGroups: Story = () => {
             </div>
 
             <h2 className="mt-3">Sizing</h2>
-            <p>
+            <Typography.Text>
                 Just like buttons, button groups have <code>sm</code> and <code>lg</code> size variants.
-            </p>
+            </Typography.Text>
             <div className="mb-2">
                 {buttonSizes.map(size => (
                     <div key={size} className="mb-2">
@@ -317,9 +319,9 @@ export const ButtonGroups: Story = () => {
             </div>
 
             <h2 className="mt-3">Active state</h2>
-            <p>
+            <Typography.Text>
                 The <code>active</code> class can be used to craft toggles out of button groups.
-            </p>
+            </Typography.Text>
             <div className="mb-2">
                 <ButtonGroup aria-label="Basic example">
                     {(['Left', 'Middle', 'Right'] as const).map(option => (
@@ -373,11 +375,11 @@ export const InputGroups: Story = () => (
     <>
         <h1>Input groups</h1>
 
-        <p>
+        <Typography.Text>
             Easily extend form controls by adding text, buttons, or button groups on either side of textual inputs,
             custom selects, and custom file inputs.{' '}
             <Link to="https://getbootstrap.com/docs/4.5/components/input-group/">Bootstrap documentation</Link>
-        </p>
+        </Typography.Text>
 
         <h2>Example</h2>
         <div>
@@ -398,12 +400,12 @@ InputGroups.storyName = 'Input groups'
 export const Forms: Story = () => (
     <>
         <h1>Forms</h1>
-        <p>
+        <Typography.Text>
             Forms are validated using native HTML validation. Submit the below form with invalid input to try it out.{' '}
             <Link to="https://getbootstrap.com/docs/4.5/components/forms/" target="_blank" rel="noopener noreferrer">
                 Bootstrap documentation
             </Link>
-        </p>
+        </Typography.Text>
         <Form onSubmit={preventDefault}>
             <div className="form-group">
                 <label htmlFor="example-email-input">Email address</label>
@@ -470,7 +472,7 @@ export const Forms: Story = () => (
         <input className="form-control" type="text" value="I'm a readonly value" readOnly={true} />
 
         <h2 className="mt-3">Sizing</h2>
-        <p>Form fields can be made smaller</p>
+        <Typography.Text>Form fields can be made smaller</Typography.Text>
         <div className="d-flex">
             <fieldset>
                 <div className="form-group">
@@ -504,10 +506,10 @@ Forms.parameters = {
 export const ListGroups: Story = () => (
     <>
         <h1>List groups</h1>
-        <p>
+        <Typography.Text>
             List groups are a flexible and powerful component for displaying a series of content. Modify and extend them
             to support just about any content within.
-        </p>
+        </Typography.Text>
         <ul className="list-group mb-3">
             <li className="list-group-item">Cras justo odio</li>
             <li className="list-group-item">Dapibus ac facilisis in</li>
@@ -572,7 +574,7 @@ export const Meter: Story = () => {
     return (
         <>
             <h1>Meter</h1>
-            <p>
+            <Typography.Text>
                 The HTML{' '}
                 <Link
                     to="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter"
@@ -582,7 +584,7 @@ export const Meter: Story = () => {
                     <code>{'<meter>'}</code>
                 </Link>{' '}
                 element represents either a scalar value within a known range or a fractional value.
-            </p>
+            </Typography.Text>
             <h2>Examples</h2>
             <hr />
             <div className="pb-3">

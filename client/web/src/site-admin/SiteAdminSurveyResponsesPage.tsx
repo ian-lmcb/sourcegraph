@@ -15,6 +15,7 @@ import {
     TabPanel,
     TabPanels,
     Tabs,
+    Typography,
 } from '@sourcegraph/wildcard'
 
 import { FilteredConnection } from '../components/FilteredConnection'
@@ -292,11 +293,11 @@ export const SiteAdminSurveyResponsesPage: React.FunctionComponent<React.PropsWi
         <div className="site-admin-survey-responses-page">
             <PageTitle title="User feedback survey - Admin" />
             <h2>User feedback survey</h2>
-            <p>
+            <Typography.Text>
                 After using Sourcegraph for a few days, users are presented with a request to answer "How likely is it
                 that you would recommend Sourcegraph to a friend?" on a scale from 0–10 and to provide some feedback.
                 Responses are visible below (and are also sent to Sourcegraph).
-            </p>
+            </Typography.Text>
 
             <SiteAdminSurveyResponsesSummary />
 

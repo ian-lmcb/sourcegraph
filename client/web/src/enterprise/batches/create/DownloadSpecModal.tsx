@@ -4,7 +4,7 @@ import { VisuallyHidden } from '@reach/visually-hidden'
 import CloseIcon from 'mdi-react/CloseIcon'
 
 import { CodeSnippet } from '@sourcegraph/branded/src/components/CodeSnippet'
-import { Button, Link, Modal } from '@sourcegraph/wildcard'
+import { Button, Link, Modal, Typography } from '@sourcegraph/wildcard'
 
 import { BatchSpecDownloadLink, getFileName } from '../BatchSpec'
 
@@ -47,10 +47,10 @@ export const DownloadSpecModal: React.FunctionComponent<React.PropsWithChildren<
 
         <div className={styles.container}>
             <div className={styles.left}>
-                <p>
+                <Typography.Text>
                     Use the <Link to="https://docs.sourcegraph.com/cli">Sourcegraph CLI (src) </Link>
                     to run this batch change locally.
-                </p>
+                </Typography.Text>
 
                 <CodeSnippet
                     code={`src batch preview -f ${getFileName(name)}`}
@@ -58,19 +58,19 @@ export const DownloadSpecModal: React.FunctionComponent<React.PropsWithChildren<
                     className={styles.codeSnippet}
                 />
 
-                <p className="p-0 m-0">
+                <Typography.Text className="p-0 m-0">
                     Follow the URL printed in your terminal to see the preview and (when you're ready) create the batch
                     change.
-                </p>
+                </Typography.Text>
             </div>
             <div className={styles.right}>
                 <div>
                     <h4>About src-cli </h4>
-                    <p>
+                    <Typography.Text>
                         src cli is a command line interface to Sourcegraph. Its{' '}
                         <span className="text-monospace">batch</span> command allows to run batch specification files
                         using Docker.
-                    </p>
+                    </Typography.Text>
                     <Link to="https://docs.sourcegraph.com/cli">Download src-cli</Link>
                 </div>
             </div>

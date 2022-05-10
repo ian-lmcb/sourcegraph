@@ -4,6 +4,7 @@ import { createMemoryHistory } from 'history'
 import { ChartContent } from 'sourcegraph'
 
 import { NOOP_TELEMETRY_SERVICE } from '@sourcegraph/shared/src/telemetry/telemetryService'
+import { Typography } from '@sourcegraph/wildcard'
 
 import { WebStory } from '../../../../../components/WebStory'
 import { LINE_CHART_CONTENT_MOCK, LINE_CHART_WITH_MANY_LINES } from '../../../../mocks/charts-content'
@@ -277,27 +278,27 @@ add('Line chart with horizontal layout', () => (
     <>
         <article>
             <h3>Middle width chart 2 lines</h3>
-            <p>Legend block should be below the chart</p>
+            <Typography.Text>Legend block should be below the chart</Typography.Text>
             <ChartViewContent {...commonProps} content={LINE_CHART_CONTENT_MOCK} />
         </article>
 
         <article>
             <h3>Big width chart 2 lines</h3>
-            <p>
+            <Typography.Text>
                 Legend block should be below the chart even if we have enough space, but we have small number of series
-            </p>
+            </Typography.Text>
             <ChartViewContent {...commonProps} className={styles.chartLg} content={LINE_CHART_CONTENT_MOCK} />
         </article>
 
         <article>
             <h3>Middle width chart with many lines</h3>
-            <p>Legend is placed below cause we don't have enough X space to put it aside</p>
+            <Typography.Text>Legend is placed below cause we don't have enough X space to put it aside</Typography.Text>
             <ChartViewContent {...commonProps} content={LINE_CHART_WITH_MANY_LINES} />
         </article>
 
         <article>
             <h3>Big width chart with many lines</h3>
-            <p>Legend is placed aside because we have enought X space</p>
+            <Typography.Text>Legend is placed aside because we have enought X space</Typography.Text>
             <ChartViewContent {...commonProps} className={styles.chartLg} content={LINE_CHART_WITH_MANY_LINES} />
         </article>
 

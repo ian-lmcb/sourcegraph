@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Typography } from '@sourcegraph/wildcard'
+
 import { defaultExternalServices } from '../../../components/externalServices/externalServices'
 import { ExternalServiceKind } from '../../../graphql-operations'
 
@@ -16,6 +18,6 @@ export const ModalHeader: React.FunctionComponent<React.PropsWithChildren<ModalH
 }) => (
     <>
         <h3 id={id}>Batch Changes credentials: {defaultExternalServices[externalServiceKind].defaultDisplayName}</h3>
-        <p className="mb-4">{externalServiceURL}</p>
+        <Typography.Text className="mb-4">{externalServiceURL}</Typography.Text>
     </>
 )

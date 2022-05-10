@@ -32,6 +32,7 @@ import {
     CardBody,
     Card,
     Icon,
+    Typography,
 } from '@sourcegraph/wildcard'
 
 import { Collapsible } from '../../../components/Collapsible'
@@ -178,8 +179,10 @@ const HiddenWorkspaceDetails: React.FunctionComponent<React.PropsWithChildren<Hi
             <Icon as={EyeOffOutlineIcon} />
             <VisuallyHidden>Hidden Workspace</VisuallyHidden>
         </h1>
-        <p className="text-center">This workspace is hidden due to permissions.</p>
-        <p className="text-center">Contact the owner of this batch change for more information.</p>
+        <Typography.Text alignment="center">This workspace is hidden due to permissions.</Typography.Text>
+        <Typography.Text alignment="center">
+            Contact the owner of this batch change for more information.
+        </Typography.Text>
     </>
 )
 
@@ -243,7 +246,9 @@ const VisibleWorkspaceDetails: React.FunctionComponent<React.PropsWithChildren<V
             {workspace.changesetSpecs && workspace.state === BatchSpecWorkspaceState.COMPLETED && (
                 <div className="mb-3">
                     {workspace.changesetSpecs.length === 0 && (
-                        <p className="mb-0 text-muted">This workspace generated no changeset specs.</p>
+                        <Typography.Text className="mb-0 text-muted">
+                            This workspace generated no changeset specs.
+                        </Typography.Text>
                     )}
                     {workspace.changesetSpecs.map((changesetSpec, index) => (
                         <React.Fragment key={changesetSpec.id}>
@@ -288,11 +293,13 @@ const IgnoredWorkspaceDetails: React.FunctionComponent<React.PropsWithChildren<I
             <Icon as={LinkVariantRemoveIcon} />
             <VisuallyHidden>Ignored Workspace</VisuallyHidden>
         </h1>
-        <p className="text-center">
+        <Typography.Text alignment="center">
             This workspace has been skipped because a <code>.batchignore</code> file is present in the workspace
             repository.
-        </p>
-        <p className="text-center">Enable the execution option to "allow ignored" to override.</p>
+        </Typography.Text>
+        <Typography.Text alignment="center">
+            Enable the execution option to "allow ignored" to override.
+        </Typography.Text>
     </>
 )
 
@@ -309,8 +316,12 @@ const UnsupportedWorkspaceDetails: React.FunctionComponent<
             <Icon as={LinkVariantRemoveIcon} />
             <VisuallyHidden>Unsupported Workspace</VisuallyHidden>
         </h1>
-        <p className="text-center">This workspace has been skipped because it is from an unsupported codehost.</p>
-        <p className="text-center">Enable the execution option to "allow unsupported" to override.</p>
+        <Typography.Text alignment="center">
+            This workspace has been skipped because it is from an unsupported codehost.
+        </Typography.Text>
+        <Typography.Text alignment="center">
+            Enable the execution option to "allow unsupported" to override.
+        </Typography.Text>
     </>
 )
 
@@ -394,10 +405,10 @@ const ChangesetSpecNode: React.FunctionComponent<React.PropsWithChildren<Changes
                 <CardBody>
                     <h3>Changeset template</h3>
                     <h4>{node.description.title}</h4>
-                    <p className="mb-0">{node.description.body}</p>
-                    <p>
+                    <Typography.Text className="mb-0">{node.description.body}</Typography.Text>
+                    <Typography.Text>
                         <strong>Published:</strong> <PublishedValue published={node.description.published} />
-                    </p>
+                    </Typography.Text>
                     <Collapsible
                         title={<h3 className="mb-0">Changes</h3>}
                         titleClassName="flex-grow-1"
@@ -508,13 +519,23 @@ const WorkspaceStep: React.FunctionComponent<React.PropsWithChildren<WorkspaceSt
                             </TabList>
                             <TabPanels>
                                 <TabPanel className="pt-2" key="logs">
-                                    {!step.startedAt && <p className="text-muted mb-0">Step not started yet</p>}
+                                    {!step.startedAt && (
+                                        <Typography.Text className="text-muted mb-0">
+                                            Step not started yet
+                                        </Typography.Text>
+                                    )}
                                     {step.startedAt && outputLines && <LogOutput text={outputLines.join('\n')} />}
                                 </TabPanel>
                                 <TabPanel className="pt-2" key="output-variables">
-                                    {!step.startedAt && <p className="text-muted mb-0">Step not started yet</p>}
+                                    {!step.startedAt && (
+                                        <Typography.Text className="text-muted mb-0">
+                                            Step not started yet
+                                        </Typography.Text>
+                                    )}
                                     {step.outputVariables?.length === 0 && (
-                                        <p className="text-muted mb-0">No output variables specified</p>
+                                        <Typography.Text className="text-muted mb-0">
+                                            No output variables specified
+                                        </Typography.Text>
                                     )}
                                     <ul className="mb-0">
                                         {step.outputVariables?.map(variable => (
@@ -525,7 +546,11 @@ const WorkspaceStep: React.FunctionComponent<React.PropsWithChildren<WorkspaceSt
                                     </ul>
                                 </TabPanel>
                                 <TabPanel className="pt-2" key="diff">
-                                    {!step.startedAt && <p className="text-muted mb-0">Step not started yet</p>}
+                                    {!step.startedAt && (
+                                        <Typography.Text className="text-muted mb-0">
+                                            Step not started yet
+                                        </Typography.Text>
+                                    )}
                                     {step.startedAt && (
                                         <WorkspaceStepFileDiffConnection
                                             isLightTheme={isLightTheme}
@@ -537,7 +562,9 @@ const WorkspaceStep: React.FunctionComponent<React.PropsWithChildren<WorkspaceSt
                                 </TabPanel>
                                 <TabPanel className="pt-2" key="files-env">
                                     {step.environment.length === 0 && (
-                                        <p className="text-muted mb-0">No environment variables specified</p>
+                                        <Typography.Text className="text-muted mb-0">
+                                            No environment variables specified
+                                        </Typography.Text>
                                     )}
                                     <ul className="mb-0">
                                         {step.environment.map(variable => (
@@ -557,18 +584,18 @@ const WorkspaceStep: React.FunctionComponent<React.PropsWithChildren<WorkspaceSt
                                     <h4>Command</h4>
                                     <LogOutput text={step.run} className="mb-2" />
                                     <h4>Container</h4>
-                                    <p className="text-monospace mb-0">{step.container}</p>
+                                    <Typography.Text className="text-monospace mb-0">{step.container}</Typography.Text>
                                 </TabPanel>
                             </TabPanels>
                         </Tabs>
                     )}
                     {step.skipped && (
-                        <p className="mb-0">
+                        <Typography.Text className="mb-0">
                             <strong>
                                 Step has been skipped
                                 {cachedResultFound && <> because a cached result was found for this workspace</>}.
                             </strong>
-                        </p>
+                        </Typography.Text>
                     )}
                 </CardBody>
             </Card>

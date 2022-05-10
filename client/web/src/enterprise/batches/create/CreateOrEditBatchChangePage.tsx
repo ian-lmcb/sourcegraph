@@ -38,6 +38,7 @@ import {
     Card,
     CardBody,
     H4,
+    Typography,
 } from '@sourcegraph/wildcard'
 
 import { BatchChangesIcon } from '../../../batches/icons'
@@ -189,10 +190,10 @@ const CreatePage: React.FunctionComponent<React.PropsWithChildren<CreatePageProp
                             <CodeInsightsBatchesIcon className="mr-4" />
                             <div className="flex-grow-1">
                                 <H4>You are creating a batch change from a code insight</H4>
-                                <p className="mb-0">
+                                <Typography.Text className="mb-0">
                                     Let Sourcegraph help you with <strong>{codeInsightTitle}</strong> by preparing a
                                     relevant <strong>batch change</strong>.
-                                </p>
+                                </Typography.Text>
                             </div>
                         </div>
                     </CardBody>
@@ -586,10 +587,10 @@ const EditPage: React.FunctionComponent<React.PropsWithChildren<EditPageProps>> 
                                     <CodeInsightsBatchesIcon className="mr-4" />
                                     <div className="flex-grow-1">
                                         <H4>Start from template for the {codeInsightTitle}</H4>
-                                        <p className="mb-0">
+                                        <Typography.Text className="mb-0">
                                             Sourcegraph pre-selected a Batch Specification for the batch change started
                                             from {codeInsightTitle}.
-                                        </p>
+                                        </Typography.Text>
                                     </div>
                                 </div>
                             </CardBody>

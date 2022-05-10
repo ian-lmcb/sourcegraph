@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import classNames from 'classnames'
 
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { Button, Card, CardBody, Link, PageHeader } from '@sourcegraph/wildcard'
+import { Button, Card, CardBody, Link, PageHeader, Typography } from '@sourcegraph/wildcard'
 
 import { Page } from '../../../../../components/Page'
 import { PageTitle } from '../../../../../components/PageTitle'
@@ -77,11 +77,11 @@ export const CodeInsightsDotComGetStarted: React.FunctionComponent<
                                 Draw insights from your codebase about how different initiatives are tracking over time
                             </h2>
 
-                            <p>
+                            <Typography.Text>
                                 Create customizable, visual dashboards with meaningful codebase signals your team can
                                 use to answer questions about what's in your code and how your code is changing.
                                 Anything you can search, you can create a Code Insight for.
-                            </p>
+                            </Typography.Text>
 
                             <h3 className={classNames(styles.hereBulletTitle)}>Use Code Insights to...</h3>
 
@@ -154,10 +154,10 @@ export const CodeInsightsDotComGetStarted: React.FunctionComponent<
                             <div>
                                 <h3>Install locally to get started</h3>
 
-                                <p>
+                                <Typography.Text>
                                     Code Insights requires a local Sourcegraph installation via Docker Compose or
                                     Kubernetes. You can check it out for free by installing locally.
-                                </p>
+                                </Typography.Text>
 
                                 <Button
                                     as={Link}

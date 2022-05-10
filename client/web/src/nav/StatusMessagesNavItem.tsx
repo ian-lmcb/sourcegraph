@@ -19,7 +19,16 @@ import {
     CloudSyncIconRefresh,
     CloudCheckIconRefresh,
 } from '@sourcegraph/shared/src/components/icons'
-import { Button, Link, Popover, PopoverContent, PopoverTrigger, Position, Icon } from '@sourcegraph/wildcard'
+import {
+    Button,
+    Link,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+    Position,
+    Icon,
+    Typography,
+} from '@sourcegraph/wildcard'
 
 import { requestGraphQL } from '../backend/graphql'
 import { CircleDashedIcon } from '../components/CircleDashedIcon'
@@ -141,7 +150,9 @@ const StatusMessagesNavItemEntry: React.FunctionComponent<React.PropsWithChildre
             </h4>
             {props.entryType === 'not-active' ? (
                 <div className={classNames('status-messages-nav-item__entry-card border-0', styles.cardInactive)}>
-                    <p className={classNames('text-muted', styles.message)}>{props.message}</p>
+                    <Typography.Text className={classNames('text-muted', styles.message)}>
+                        {props.message}
+                    </Typography.Text>
                     <Link className="text-primary" to={props.linkTo} onClick={onLinkClick}>
                         {props.linkText}
                     </Link>
@@ -154,7 +165,9 @@ const StatusMessagesNavItemEntry: React.FunctionComponent<React.PropsWithChildre
                         getBorderClassname(props.entryType)
                     )}
                 >
-                    <p className={classNames(styles.message, getMessageColor(props.entryType))}>{props.message}</p>
+                    <Typography.Text className={classNames(styles.message, getMessageColor(props.entryType))}>
+                        {props.message}
+                    </Typography.Text>
                     {props.messageHint && (
                         <>
                             <small className="text-muted d-inline-block mb-1">{props.messageHint}</small>

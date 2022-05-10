@@ -28,7 +28,7 @@ import { FilterType } from '@sourcegraph/shared/src/search/query/filters'
 import { appendContextFilter, updateFilter } from '@sourcegraph/shared/src/search/query/transformer'
 import { useTemporarySetting } from '@sourcegraph/shared/src/settings/temporary/useTemporarySetting'
 import { buildSearchURLQuery, toPrettyBlobURL } from '@sourcegraph/shared/src/util/url'
-import { Button, Link, TextArea, Icon } from '@sourcegraph/wildcard'
+import { Button, Link, TextArea, Icon, Typography } from '@sourcegraph/wildcard'
 
 import { BlockInput } from '../notebooks'
 import {
@@ -388,7 +388,7 @@ export const Notepad: React.FunctionComponent<React.PropsWithChildren<NotepadPro
                     </ul>
                     {confirmRemoveAll && (
                         <div className="p-2">
-                            <p>Are you sure you want to delete all entries?</p>
+                            <Typography.Text>Are you sure you want to delete all entries?</Typography.Text>
                             <div className="d-flex justify-content-between">
                                 <Button variant="secondary" onClick={() => setConfirmRemoveAll(false)}>
                                     Cancel

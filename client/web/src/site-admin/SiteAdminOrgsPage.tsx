@@ -11,7 +11,7 @@ import { Subject } from 'rxjs'
 import { ErrorAlert } from '@sourcegraph/branded/src/components/alerts'
 import { asError, isErrorLike, pluralize } from '@sourcegraph/common'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { Button, Link, Alert, Icon } from '@sourcegraph/wildcard'
+import { Button, Link, Alert, Icon, Typography } from '@sourcegraph/wildcard'
 
 import { FilteredConnection } from '../components/FilteredConnection'
 import { PageTitle } from '../components/PageTitle'
@@ -130,17 +130,19 @@ export const SiteAdminOrgsPage: React.FunctionComponent<React.PropsWithChildren<
                     <Icon as={AddIcon} /> Create organization
                 </Button>
             </div>
-            <p>
+            <Typography.Text>
                 An organization is a set of users with associated configuration. See{' '}
                 <Link to="/help/admin/organizations">Sourcegraph documentation</Link> for information about configuring
                 organizations.
-            </p>
+            </Typography.Text>
             {window.context.sourcegraphDotComMode ? (
                 <>
                     <Alert variant="info">Only organization members can view & modify organization settings.</Alert>
                     <h3>Enable early access</h3>
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                        <p>Enable early access for organization code host connections and repositories on Cloud.</p>
+                        <Typography.Text>
+                            Enable early access for organization code host connections and repositories on Cloud.
+                        </Typography.Text>
                         <Button to="./organizations/early-access-orgs-code" variant="primary" outline={true} as={Link}>
                             Enable early access
                         </Button>

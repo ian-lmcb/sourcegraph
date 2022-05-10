@@ -17,7 +17,15 @@ import * as GQL from '@sourcegraph/shared/src/schema'
 import extensionSchemaJSON from '@sourcegraph/shared/src/schema/extension.schema.json'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { Button, LoadingSpinner, useLocalStorage, useEventObservable, Link, Icon } from '@sourcegraph/wildcard'
+import {
+    Button,
+    LoadingSpinner,
+    useLocalStorage,
+    useEventObservable,
+    Link,
+    Icon,
+    Typography,
+} from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../../../auth'
 import { withAuthenticatedUser } from '../../../auth/withAuthenticatedUser'
@@ -132,13 +140,13 @@ export const RegistryExtensionNewReleasePage = withAuthenticatedUser<Props>(
             <div className="registry-extension-new-release-page">
                 <PageTitle title="Publish new release" />
                 <h2>Publish new release</h2>
-                <p>
+                <Typography.Text>
                     Use the{' '}
                     <Link to="https://github.com/sourcegraph/src-cli" target="_blank" rel="noopener noreferrer">
                         <code>src</code> CLI tool
                     </Link>{' '}
                     to publish a new release:
-                </p>
+                </Typography.Text>
                 <pre>
                     <code>$ src extensions publish</code>
                 </pre>
@@ -146,11 +154,11 @@ export const RegistryExtensionNewReleasePage = withAuthenticatedUser<Props>(
                     <>
                         <hr className="my-4" />
                         <h2>Extension editor (experimental)</h2>
-                        <p>
+                        <Typography.Text>
                             Edit or paste in an extension JSON manifest and JavaScript bundle. The JavaScript bundle
                             source must be self-contained; dependency bundling and TypeScript transpilation is not yet
                             supported.
-                        </p>
+                        </Typography.Text>
                         <Form onSubmit={onSubmit} className="mb-3">
                             <div className="row">
                                 <div className="col-lg-6">

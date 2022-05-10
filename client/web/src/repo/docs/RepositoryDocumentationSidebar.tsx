@@ -6,7 +6,7 @@ import ChevronDoubleLeftIcon from 'mdi-react/ChevronDoubleLeftIcon'
 import FileTreeIcon from 'mdi-react/FileTreeIcon'
 
 import { ResolvedRevisionSpec, RevisionSpec } from '@sourcegraph/shared/src/util/url'
-import { Button, useLocalStorage, Link, Icon, Panel } from '@sourcegraph/wildcard'
+import { Button, useLocalStorage, Link, Icon, Panel, Typography } from '@sourcegraph/wildcard'
 
 import { Collapsible } from '../../components/Collapsible'
 import { RepositoryFields } from '../../graphql-operations'
@@ -175,7 +175,7 @@ export const RepositoryDocumentationSidebar: React.FunctionComponent<React.Props
                             {props.pathInfo.children.length > 0 ? (
                                 <SubpagesList onToggle={onToggle} {...props} node={node} activePathID={activePathID} />
                             ) : (
-                                <p>Looks like there's nothing to see here..</p>
+                                <Typography.Text>Looks like there's nothing to see here..</Typography.Text>
                             )}
                         </>
                     )}
@@ -189,7 +189,7 @@ export const RepositoryDocumentationSidebar: React.FunctionComponent<React.Props
                         props.pathInfo.children.length === 0 &&
                         isExcluded(node, excludingTags) && (
                             <>
-                                <p>Looks like there's nothing to see here..</p>
+                                <Typography.Text>Looks like there's nothing to see here..</Typography.Text>
                             </>
                         )}
                     <DocumentationIndexNode

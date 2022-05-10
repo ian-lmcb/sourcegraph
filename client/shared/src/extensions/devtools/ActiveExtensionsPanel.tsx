@@ -4,7 +4,16 @@ import { from } from 'rxjs'
 import { catchError, switchMap } from 'rxjs/operators'
 
 import { asError, isErrorLike } from '@sourcegraph/common'
-import { Button, LoadingSpinner, useObservable, Link, CardHeader, CardBody, Alert } from '@sourcegraph/wildcard'
+import {
+    Button,
+    LoadingSpinner,
+    useObservable,
+    Link,
+    CardHeader,
+    CardBody,
+    Alert,
+    Typography,
+} from '@sourcegraph/wildcard'
 
 import { wrapRemoteObservable } from '../../api/client/api/common'
 
@@ -68,10 +77,10 @@ export const ActiveExtensionsPanel: React.FunctionComponent<
                 <h4>Sideload extension</h4>
                 {sideloadedExtensionURL ? (
                     <div>
-                        <p>
+                        <Typography.Text>
                             <span>Load from: </span>
                             <Link to={sideloadedExtensionURL}>{sideloadedExtensionURL}</Link>
-                        </p>
+                        </Typography.Text>
                         <div>
                             <Button className="mr-1" onClick={setSideloadedExtensionURL} variant="primary" size="sm">
                                 Change
@@ -83,9 +92,9 @@ export const ActiveExtensionsPanel: React.FunctionComponent<
                     </div>
                 ) : (
                     <div>
-                        <p>
+                        <Typography.Text>
                             <span>No sideloaded extension</span>
-                        </p>
+                        </Typography.Text>
                         <div>
                             <Button onClick={setSideloadedExtensionURL} variant="primary" size="sm">
                                 Load extension

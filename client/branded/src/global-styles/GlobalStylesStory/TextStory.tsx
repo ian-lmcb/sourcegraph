@@ -1,7 +1,7 @@
 import React from 'react'
-import 'storybook-addon-designs'
 
-import { Link } from '@sourcegraph/wildcard'
+import { Link, Typography } from '@sourcegraph/wildcard'
+import 'storybook-addon-designs'
 
 import { SEMANTIC_COLORS } from './constants'
 import { TextVariants } from './TextVariants'
@@ -32,8 +32,8 @@ export const TextStory: React.FunctionComponent<React.PropsWithChildren<unknown>
         <TextVariants />
 
         <h2>Prose</h2>
-        <p>Text uses system fonts. The fonts should never be overridden.</p>
-        <p>
+        <Typography.Text>Text uses system fonts. The fonts should never be overridden.</Typography.Text>
+        <Typography.Text>
             Minim nisi tempor Lorem do incididunt exercitation ipsum consectetur laboris elit est aute irure velit.
             Voluptate irure excepteur sint reprehenderit culpa laboris. Elit id nostrud enim laboris irure. Est sunt ex
             ipisicing aute elit voluptate consectetur.Do laboris anim fugiat ipsum sunt elit sunt amet consequat trud
@@ -44,17 +44,17 @@ export const TextStory: React.FunctionComponent<React.PropsWithChildren<unknown>
             deserunt anim ad eiusmod quis quis laborum magna nisi occaecat. Eu is eiusmod sint aliquip duis est sit
             irure velit reprehenderit id. Cillum est esse et nulla ut adipisicing velit anim id exercitation nostrud.
             Duis veniam sit laboris tempor quis sit cupidatat elit.
-        </p>
+        </Typography.Text>
 
-        <p>
+        <Typography.Text>
             Text can contain links, which <Link to="/">trigger a navigation to a different page</Link>.
-        </p>
+        </Typography.Text>
 
-        <p>
+        <Typography.Text>
             Text can be <em>emphasized</em> or made <strong>strong</strong>.
-        </p>
+        </Typography.Text>
 
-        <p>
+        <Typography.Text>
             Text can be <i>idiomatic</i> with <code>{'<i>'}</code>. See{' '}
             <Link
                 target="__blank"
@@ -63,30 +63,30 @@ export const TextStory: React.FunctionComponent<React.PropsWithChildren<unknown>
                 {'<i>'} vs. {'<em>'}
             </Link>{' '}
             for more info.
-        </p>
+        </Typography.Text>
 
-        <p>
+        <Typography.Text>
             You can bring attention to the <b>element</b> with <code>{'<b>'}</code>.
-        </p>
+        </Typography.Text>
 
-        <p>
+        <Typography.Text>
             Text can have superscripts<sup>sup</sup> with <code>{'<sup>'}</code>.
-        </p>
+        </Typography.Text>
 
-        <p>
+        <Typography.Text>
             Text can have subscripts<sub>sub</sub> with <code>{'<sub>'}</code>.
-        </p>
+        </Typography.Text>
 
-        <p>
+        <Typography.Text>
             <small>
                 You can use <code>{'<small>'}</code> to make small text. Use sparingly.
             </small>
-        </p>
+        </Typography.Text>
 
         <h2>Color variations</h2>
-        <p>
+        <Typography.Text>
             <code>text-*</code> classes can be used to apply semantic coloring to text.
-        </p>
+        </Typography.Text>
         <div className="mb-3">
             {['muted', ...SEMANTIC_COLORS].map(color => (
                 <div key={color} className={'text-' + color}>
@@ -134,9 +134,9 @@ export const TextStory: React.FunctionComponent<React.PropsWithChildren<unknown>
         </ul>
 
         <h4>Dashes</h4>
-        <p>
+        <Typography.Text>
             Dashed lists are created using <code>list-dashed</code>.
-        </p>
+        </Typography.Text>
         <ul className="list-dashed">
             <li>
                 Ad deserunt amet Lorem in exercitation. Deserunt labore anim non minim. Dolor dolore adipisicing anim

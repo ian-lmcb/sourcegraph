@@ -24,6 +24,7 @@ import {
     Modal,
     Input,
     Label,
+    Typography,
 } from '@sourcegraph/wildcard'
 
 import { Collapsible } from '../components/Collapsible'
@@ -564,10 +565,10 @@ const ManageFeatureFlag: FunctionComponent<
     return (
         <>
             <h3>Name</h3>
-            <p>{name}</p>
+            <Typography.Text>{name}</Typography.Text>
 
             <h3>Type</h3>
-            <p>{type.slice('FeatureFlag'.length)}</p>
+            <Typography.Text>{type.slice('FeatureFlag'.length)}</Typography.Text>
 
             <FeatureFlagValueSettings type={type} value={value} setFlagValue={setFlagValue} />
 

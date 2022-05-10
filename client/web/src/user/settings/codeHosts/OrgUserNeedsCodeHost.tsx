@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, Button, Link } from '@sourcegraph/wildcard'
+import { Container, Button, Link, Typography } from '@sourcegraph/wildcard'
 
 import { useExternalServices } from '../../../auth/useExternalServices'
 import { ListExternalServiceFields } from '../../../graphql-operations'
@@ -36,10 +36,10 @@ export const OrgUserNeedsCodeHost: React.FunctionComponent<React.PropsWithChildr
         return (
             <Container className="mb-4">
                 <h3>Just one more step...</h3>
-                <p>
+                <Typography.Text>
                     Connect with {missingString} to start searching across the {orgDisplayName} organization's private
                     repositories on Sourcegraph.
-                </p>
+                </Typography.Text>
                 <Button to={`/users/${user.username}/settings/code-hosts`} variant="primary" as={Link}>
                     Connect with {missingString}
                 </Button>

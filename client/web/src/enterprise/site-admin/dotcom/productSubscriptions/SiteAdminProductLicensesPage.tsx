@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators'
 import { createAggregateError } from '@sourcegraph/common'
 import { gql } from '@sourcegraph/http-client'
 import * as GQL from '@sourcegraph/shared/src/schema'
+import { Typography } from '@sourcegraph/wildcard'
 
 import { queryGraphQL } from '../../../../backend/graphql'
 import { FilteredConnection } from '../../../../components/FilteredConnection'
@@ -43,7 +44,7 @@ export const SiteAdminProductLicensesPage: React.FunctionComponent<React.PropsWi
         <div className="site-admin-product-subscriptions-page">
             <PageTitle title="Product subscriptions" />
             <h2>License key lookup</h2>
-            <p>Find matching licenses and their associated product subscriptions.</p>
+            <Typography.Text>Find matching licenses and their associated product subscriptions.</Typography.Text>
             <FilteredProductLicenseConnection
                 className="list-group list-group-flush mt-3"
                 noun="product license"

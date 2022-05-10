@@ -12,7 +12,7 @@ import LockIcon from 'mdi-react/LockIcon'
 import { SourcegraphLogo } from '@sourcegraph/branded/src/components/SourcegraphLogo'
 import { PhabricatorIcon } from '@sourcegraph/shared/src/components/icons'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { Link, Icon } from '@sourcegraph/wildcard'
+import { Link, Icon, Typography } from '@sourcegraph/wildcard'
 
 import { getPlatformName } from '../../shared/util/context'
 
@@ -67,7 +67,9 @@ export const AfterInstallPageContent: React.FunctionComponent<React.PropsWithChi
 
             <div className="container mt-3">
                 <h1>🎉 You’ve just installed the Sourcegraph browser extension!</h1>
-                <p className="lead mb-0">We’ve gathered the most important information that will get your started:</p>
+                <Typography.Text className="lead mb-0">
+                    We’ve gathered the most important information that will get your started:
+                </Typography.Text>
             </div>
 
             <section className="border-bottom py-5">
@@ -76,20 +78,20 @@ export const AfterInstallPageContent: React.FunctionComponent<React.PropsWithChi
                     <div className="row">
                         <div className="col-md-6">
                             <h3>Code intelligence on your code host</h3>
-                            <p>
+                            <Typography.Text>
                                 Sourcegraph browser extension adds code intelligence to files and diffs on GitHub,
                                 GitHub Enterprise, GitLab, Phabricator, Bitbucket Server, and Gerrit.
-                            </p>
+                            </Typography.Text>
                             <Video {...props} name="CodeIntelligenceOnCodeHost" width={1760} height={1060} />
                         </div>
                         {showSearchShortcut && (
                             <div className="col-md-6 mt-4 mt-md-0">
                                 <h3>Search shortcut in the URL location bar</h3>
-                                <p>
+                                <Typography.Text>
                                     Type <code>src</code>
                                     <kbd>tab</kbd> in the address bar of your browser to search for queries on
                                     Sourcegraph.
-                                </p>
+                                </Typography.Text>
                                 <Video {...props} name="BrowserShortcut" width={1196} height={720} />
                             </div>
                         )}
@@ -112,10 +114,10 @@ export const AfterInstallPageContent: React.FunctionComponent<React.PropsWithChi
                                     />{' '}
                                     github.com
                                 </h3>
-                                <p className="m-0">
+                                <Typography.Text className="m-0">
                                     <Icon role="img" as={CheckIcon} aria-hidden={true} /> No action required.Your
                                     extension works here by default.
-                                </p>
+                                </Typography.Text>
                             </div>
                             <div className="bg-2 rounded p-3 d-flex flex-column justify-content-center">
                                 <h3 className={classNames('d-flex flex-wrap', styles.codeHostTitles)}>
@@ -156,7 +158,9 @@ export const AfterInstallPageContent: React.FunctionComponent<React.PropsWithChi
                                         Phabricator
                                     </div>
                                 </h3>
-                                <p>Your extension needs explicit permissions to your code host:</p>
+                                <Typography.Text>
+                                    Your extension needs explicit permissions to your code host:
+                                </Typography.Text>
                                 <ol className="m-0">
                                     <li>Navigate to any page on your code host.</li>
                                     <li>
@@ -188,18 +192,20 @@ export const AfterInstallPageContent: React.FunctionComponent<React.PropsWithChi
                     <div className="row">
                         <div className="col-md-6 d-flex flex-column">
                             <h2 className="mb-4">Make it work for private code</h2>
-                            <p>By default, the browser extension works only for public code.</p>
+                            <Typography.Text>
+                                By default, the browser extension works only for public code.
+                            </Typography.Text>
                             <div className="d-flex align-items-center">
                                 <div className="bg-3 rounded-circle p-2">
                                     <Icon role="img" as={LockIcon} aria-hidden={true} />
                                 </div>
-                                <p className="m-0 ml-3">
+                                <Typography.Text className="m-0 ml-3">
                                     To use the browser extension with your private repositories, you need to set up a{' '}
                                     <strong>private Sourcegraph instance</strong> and connect the extension to it.
-                                </p>
+                                </Typography.Text>
                             </div>
                             <div className="bg-2 rounded p-3 mt-4 d-flex flex-column justify-content-around">
-                                <p>Follow these instructions:</p>
+                                <Typography.Text>Follow these instructions:</Typography.Text>
                                 <ol className="m-0 d-flex flex-column justify-content-around">
                                     <li>
                                         <strong>Install Sourcegraph</strong> (
@@ -241,7 +247,7 @@ export const AfterInstallPageContent: React.FunctionComponent<React.PropsWithChi
                         <div className="bg-3 rounded-circle p-2">
                             <Icon role="img" as={BookOpenPageVariantIcon} aria-hidden={true} />
                         </div>
-                        <p className="m-0 ml-3">
+                        <Typography.Text className="m-0 ml-3">
                             Read the{' '}
                             <Link
                                 to="https://docs.sourcegraph.com/integration/browser_extension"
@@ -251,7 +257,7 @@ export const AfterInstallPageContent: React.FunctionComponent<React.PropsWithChi
                                 Sourcegraph docs
                             </Link>{' '}
                             to learn more about how we respect your privacy, troubleshooting and extension features.
-                        </p>
+                        </Typography.Text>
                     </div>
                 </div>
             </section>
