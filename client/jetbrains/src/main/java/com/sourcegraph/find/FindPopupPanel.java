@@ -15,9 +15,14 @@ import com.intellij.ui.components.JBPanelWithEmptyText;
 import com.intellij.ui.jcef.JBCefApp;
 import com.intellij.util.ui.JBUI;
 import com.sourcegraph.browser.SourcegraphJBCefBrowser;
+import org.cef.browser.CefBrowser;
+import org.cef.browser.CefFrame;
+import org.cef.handler.CefLoadHandler;
+import org.cef.network.CefRequest;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -37,15 +42,49 @@ public class FindPopupPanel extends JBPanel<FindPopupPanel> implements Disposabl
         Splitter splitter = new OnePixelSplitter(true, 0.5f, 0.1f, 0.9f);
         add(splitter, BorderLayout.CENTER);
 
-        JBPanel<JBPanelWithEmptyText> jcefPanel = new JBPanelWithEmptyText(new BorderLayout()).withEmptyText("Unfortunately, the browser is not available on your system. Try running the IDE with the default OpenJDK.");
+        // Create browser
+        JBPanelWithEmptyText jcefPanel = new JBPanelWithEmptyText(new BorderLayout()).withEmptyText("Unfortunately, the browser is not available on your system. Try running the IDE with the default OpenJDK.");
         browser = JBCefApp.isSupported() ? new SourcegraphJBCefBrowser() : null;
         if (browser != null) {
             jcefPanel.add(browser.getComponent(), BorderLayout.CENTER);
         }
 
+        // Create top part
+        JBPanelWithEmptyText jcefLoadingPanel = new JBPanelWithEmptyText(new BorderLayout());
+        //noinspection DialogTitleCapitalization
+        jcefLoadingPanel.getEmptyText().setText("Loading Sourcegraph...");
+        //jcefLoadingPanel.setOpaque(true);
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new OverlayLayout(topPanel));
+        topPanel.add(jcefLoadingPanel);
+
+        topPanel.add(jcefPanel); // This goes behind the other one
+
+        if (browser != null) {
+            browser.getJBCefClient().addLoadHandler(new CefLoadHandler() {
+                @Override
+                public void onLoadingStateChange(CefBrowser cefBrowser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
+                }
+
+                @Override
+                public void onLoadStart(CefBrowser cefBrowser, CefFrame frame, CefRequest.TransitionType transitionType) {
+                }
+
+                @Override
+                public void onLoadEnd(CefBrowser cefBrowser, CefFrame frame, int httpStatusCode) {
+                    //jcefLoadingPanel.setVisible(false);
+                }
+
+                @Override
+                public void onLoadError(CefBrowser cefBrowser, CefFrame frame, ErrorCode errorCode, String errorText, String failedUrl) {
+                }
+            }, browser.getCefBrowser());
+        }
+
+        // Create bottom part
         JBPanel<JBPanelWithEmptyText> previewPanel = createPreviewPanel(project);
 
-        splitter.setFirstComponent(jcefPanel);
+        splitter.setFirstComponent(topPanel);
         splitter.setSecondComponent(previewPanel);
     }
 
