@@ -4,7 +4,10 @@ import (
 	"context"
 
 	"github.com/sourcegraph/sourcegraph/cmd/worker/job"
+	"github.com/sourcegraph/sourcegraph/cmd/worker/workerdb"
 	"github.com/sourcegraph/sourcegraph/internal/codeintel/dependencies/background/indexer"
+	livedependencies "github.com/sourcegraph/sourcegraph/internal/codeintel/dependencies/live"
+	"github.com/sourcegraph/sourcegraph/internal/database"
 	"github.com/sourcegraph/sourcegraph/internal/env"
 	"github.com/sourcegraph/sourcegraph/internal/goroutine"
 	"github.com/sourcegraph/sourcegraph/lib/log"
@@ -27,7 +30,12 @@ func (j *dependenciesIndexerJob) Config() []env.Config {
 }
 
 func (j *dependenciesIndexerJob) Routines(ctx context.Context, logger log.Logger) ([]goroutine.BackgroundRoutine, error) {
+	db, err := workerdb.Init()
+	if err != nil {
+		return nil, err
+	}
+
 	return []goroutine.BackgroundRoutine{
-		indexer.NewIndexer(),
+		indexer.NewIndexer(database.NewDB(db), livedependencies.NewSyncer()),
 	}, nil
 }
