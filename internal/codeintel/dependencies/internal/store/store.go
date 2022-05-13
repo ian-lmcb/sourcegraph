@@ -54,6 +54,7 @@ type ListDependencyReposOpts struct {
 	NewestFirst bool
 }
 
+// ListDependencyRepos returns dependency repositories to be synced by gitserver.
 func (s *Store) ListDependencyRepos(ctx context.Context, opts ListDependencyReposOpts) (dependencyRepos []shared.Repo, err error) {
 	ctx, _, endObservation := s.operations.listDependencyRepos.With(ctx, &err, observation.Args{LogFields: []log.Field{
 		log.String("scheme", opts.Scheme),
@@ -112,8 +113,8 @@ func makeLimit(limit int) *sqlf.Query {
 	return sqlf.Sprintf("LIMIT %s", limit)
 }
 
-// UpsertDependencyRepos creates the given dependency repos if they doesn't yet exist. The values that
-// did not exist previously are returned.
+// UpsertDependencyRepos creates the given dependency repos if they don't yet exist. The values
+// that did not exist previously are returned.
 func (s *Store) UpsertDependencyRepos(ctx context.Context, deps []shared.Repo) (newDeps []shared.Repo, err error) {
 	ctx, _, endObservation := s.operations.upsertDependencyRepos.With(ctx, &err, observation.Args{LogFields: []log.Field{
 		log.Int("numDeps", len(deps)),
@@ -135,13 +136,8 @@ func (s *Store) UpsertDependencyRepos(ctx context.Context, deps []shared.Repo) (
 	}
 
 	returningScanner := func(rows dbutil.Scanner) error {
-		var dependencyRepo shared.Repo
-		if err = rows.Scan(
-			&dependencyRepo.ID,
-			&dependencyRepo.Scheme,
-			&dependencyRepo.Name,
-			&dependencyRepo.Version,
-		); err != nil {
+		dependencyRepo, err := scanDependencyRepo(rows)
+		if err != nil {
 			return err
 		}
 
