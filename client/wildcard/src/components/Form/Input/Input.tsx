@@ -21,6 +21,8 @@ export enum InputStatus {
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     /** text label of input. */
     label?: ReactNode
+    /** text description, display as tooltip when label is hovered. */
+    labelTitle?: string
     /** Description block shown below the input. */
     message?: ReactNode
     /** Custom class name for root label element. */
@@ -47,6 +49,7 @@ export const Input = forwardRef((props, reference) => {
         type = 'text',
         variant = 'regular',
         label,
+        labelTitle,
         message,
         className,
         inputClassName,
@@ -70,11 +73,17 @@ export const Input = forwardRef((props, reference) => {
                 <Component
                     disabled={disabled}
                     type={type}
-                    className={classNames(styles.input, inputClassName, 'form-control', 'with-invalid-icon', {
-                        'is-valid': status === InputStatus.valid,
-                        'is-invalid': error || status === InputStatus.error,
-                        'form-control-sm': variant === 'small',
-                    })}
+                    className={classNames(
+                        inputClassName,
+                        status === InputStatus.loading && styles.inputLoading,
+                        'form-control',
+                        'with-invalid-icon',
+                        {
+                            'is-valid': status === InputStatus.valid,
+                            'is-invalid': error || status === InputStatus.error,
+                            'form-control-sm': variant === 'small',
+                        }
+                    )}
                     {...otherProps}
                     ref={mergedReference}
                     autoFocus={autoFocus}
@@ -94,7 +103,7 @@ export const Input = forwardRef((props, reference) => {
 
     if (label) {
         return (
-            <Label className={classNames('w-100', className)}>
+            <Label title={labelTitle} className={classNames('w-100', className)}>
                 {label && <div className="mb-2">{variant === 'regular' ? label : <small>{label}</small>}</div>}
                 {inputWithMessage}
             </Label>

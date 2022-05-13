@@ -4,6 +4,8 @@ import classNames from 'classnames'
 import { startCase } from 'lodash'
 import { noop } from 'rxjs'
 
+import { Input } from '@sourcegraph/wildcard'
+
 import { DATA_SERIES_COLORS } from '../../constants'
 
 import styles from './FormColorInput.module.scss'
@@ -33,25 +35,26 @@ export const FormColorInput: React.FunctionComponent<React.PropsWithChildren<For
 
             <div>
                 {COLORS_KEYS.map(key => (
-                    <label
+                    <Input
                         key={key}
-                        /* eslint-disable-next-line react/forbid-dom-props */
-                        style={{ color: DATA_SERIES_COLORS[key] }}
-                        title={startCase(key.toLocaleLowerCase())}
-                        className={styles.formColorPickerColorBlock}
-                    >
-                        <input
-                            type="radio"
-                            name={name}
-                            aria-label={key}
-                            value={DATA_SERIES_COLORS[key]}
-                            checked={value === DATA_SERIES_COLORS[key]}
-                            className={styles.formColorPickerNativeRadioControl}
-                            onChange={onChange}
-                        />
-
-                        <span className={styles.formColorPickerRadioControl} />
-                    </label>
+                        type="radio"
+                        name={name}
+                        aria-label={key}
+                        value={DATA_SERIES_COLORS[key]}
+                        checked={value === DATA_SERIES_COLORS[key]}
+                        className={styles.formColorPickerNativeRadioControl}
+                        onChange={onChange}
+                        labelTitle={startCase(key.toLocaleLowerCase())}
+                        label={
+                            <div
+                                /* eslint-disable-next-line react/forbid-dom-props */
+                                style={{ color: DATA_SERIES_COLORS[key] }}
+                                className={styles.formColorPickerColorBlock}
+                            >
+                                <span className={styles.formColorPickerRadioControl} />
+                            </div>
+                        }
+                    />
                 ))}
             </div>
         </fieldset>
