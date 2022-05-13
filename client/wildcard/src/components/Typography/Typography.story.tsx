@@ -10,7 +10,7 @@ import { TYPOGRAPHY_ALIGNMENTS, TYPOGRAPHY_MODES } from './constants'
 import { H1, H2, H4, H5, H6 } from './Heading'
 import { Label } from './Label'
 
-import { Code, Text } from '.'
+import { Text } from '.'
 
 const decorator: DecoratorFn = story => <BrandedStory styles={webStyles}>{() => <div>{story()}</div>}</BrandedStory>
 
@@ -42,11 +42,11 @@ export const Simple: Story = () => (
             <tbody>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             H1
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <H1
@@ -59,11 +59,11 @@ export const Simple: Story = () => (
                 </tr>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             H2
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <H2
@@ -76,11 +76,11 @@ export const Simple: Story = () => (
                 </tr>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             H3
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <Typography.H3
@@ -93,11 +93,11 @@ export const Simple: Story = () => (
                 </tr>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             H4
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <H4
@@ -110,11 +110,11 @@ export const Simple: Story = () => (
                 </tr>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             H5
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <H5
@@ -127,11 +127,11 @@ export const Simple: Story = () => (
                 </tr>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             H6
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <H6
@@ -150,32 +150,32 @@ export const Simple: Story = () => (
             <tbody>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             Code
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <div>
-                            <Code size="base" weight="regular">
+                            <Typography.Code size="base" weight="regular">
                                 This is Code / Base / Regular
-                            </Code>
+                            </Typography.Code>
                         </div>
                         <div>
-                            <Code size="base" weight="bold">
+                            <Typography.Code size="base" weight="bold">
                                 This is Code / Base / Bold
-                            </Code>
+                            </Typography.Code>
                         </div>
                         <div>
-                            <Code size="small" weight="regular">
+                            <Typography.Code size="small" weight="regular">
                                 This is Code / Small / Regular
-                            </Code>
+                            </Typography.Code>
                         </div>
                         <div>
-                            <Code size="small" weight="bold">
+                            <Typography.Code size="small" weight="bold">
                                 This is Code / Small / Bold
-                            </Code>
+                            </Typography.Code>
                         </div>
                     </td>
                 </tr>
@@ -187,11 +187,11 @@ export const Simple: Story = () => (
             <tbody>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             Label
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <div>
@@ -261,11 +261,11 @@ export const Simple: Story = () => (
             <tbody>
                 <tr>
                     <td>
-                        <code>
+                        <Typography.Code>
                             {'<'}
                             Text
                             {'>'}
-                        </code>
+                        </Typography.Code>
                     </td>
                     <td>
                         <Text

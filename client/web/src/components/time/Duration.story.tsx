@@ -2,6 +2,8 @@ import { date } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import { subDays } from 'date-fns'
 
+import { Typography } from '@sourcegraph/wildcard'
+
 import { WebStory } from '../WebStory'
 
 import { Duration } from './Duration'
@@ -29,7 +31,7 @@ add('active', () => (
                     <span style={{ backgroundColor: 'red', width: 100 }} />
                 </div>
                 <h3 className="mt-4">
-                    <code>stableWidth=false</code>
+                    <Typography.Code>stableWidth=false</Typography.Code>
                 </h3>
                 <div className="d-flex">
                     <span style={{ backgroundColor: 'red', width: 100 }} />
