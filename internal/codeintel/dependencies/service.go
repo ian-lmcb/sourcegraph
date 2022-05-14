@@ -125,6 +125,7 @@ func (s *Service) Dependencies(ctx context.Context, repoRevs map[api.RepoName]ty
 		return nil, err
 	}
 
+	// TODO - add query of lsif_{packages,references} here and merge results
 	return dependencyRevs, nil
 }
 
