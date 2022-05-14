@@ -2,6 +2,7 @@ package com.sourcegraph.website;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
@@ -11,6 +12,9 @@ import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.sourcegraph.config.ConfigUtil;
 import com.sourcegraph.git.GitUtil;
 import com.sourcegraph.git.RepoInfo;
@@ -43,11 +47,26 @@ public abstract class SearchActionBase extends AnAction {
         SelectionModel sel = editor.getSelectionModel();
 
         // Get repo information.
-        RepoInfo repoInfo = GitUtil.getRepoInfo(currentFile.getPath(), project);
+        RepoInfo repoInfo = GitUtil.getRepoInfo(currentFile.getParent().getPath(), project);
 
         String q = sel.getSelectedText();
         if (q == null || q.equals("")) {
-            return; // nothing to query
+            // If no selection check if identifier under caret and use it for search.
+            PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(currentDoc);
+            if (psiFile == null) {
+                return;
+            }
+
+            PsiElement psiElement = psiFile.findElementAt(editor.getCaretModel().getOffset());
+            if (psiElement == null) {
+                return;
+            }
+
+            q = psiElement.getText();
+
+            if (q == null || q.isBlank() || q.length() == 1) {
+                return; // nothing to query
+            }
         }
 
         // Build the URL that we will open.
@@ -78,16 +97,16 @@ public abstract class SearchActionBase extends AnAction {
 
     @Override
     public void update(AnActionEvent e) {
-        final Project project = e.getProject();
-        if (project == null) {
-            return;
-        }
-        String selectedText = getSelectedText(project);
+        String selectedText = getSelectedText(e);
         e.getPresentation().setEnabled(selectedText != null && selectedText.length() > 0);
     }
 
     @Nullable
-    private String getSelectedText(Project project) {
+    private String getSelectedText(AnActionEvent e) {
+        final Project project = e.getProject();
+        if (project == null) {
+            return null;
+        }
         Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
         if (editor == null) {
             return null;
@@ -99,6 +118,26 @@ public abstract class SearchActionBase extends AnAction {
         }
         SelectionModel sel = editor.getSelectionModel();
 
-        return sel.getSelectedText();
+        String q = sel.getSelectedText();
+        if (q == null || q.equals("")) {
+            // If no selection check if identifier under caret and use it for search.
+            PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(currentDoc);
+            if (psiFile == null) {
+                return null;
+            }
+
+            PsiElement psiElement = psiFile.findElementAt(editor.getCaretModel().getOffset());
+            if (psiElement == null) {
+                return null;
+            }
+
+            q = psiElement.getText();
+
+            if (q.isBlank() || q.length() == 1) {
+                return null;
+            }
+        }
+
+        return q;
     }
 }

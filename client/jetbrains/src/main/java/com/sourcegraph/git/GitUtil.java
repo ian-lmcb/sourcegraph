@@ -24,11 +24,10 @@ public class GitUtil {
             // Determine file path, relative to repository root.
             relativePath = filePath.substring(repoRootPath.length() + 1);
 
-            // TODO: It’d make more sense to default to the current branch if it exists on the remote, and only fall back to the default branch if it doesn’t.
             branchName = defaultBranchNameSetting != null ? defaultBranchNameSetting : getCurrentBranchName(repoRootPath);
             // If there’s no default branch name setting and the current branch doesn’t exist on the remote, use the default branch.
             if (!doesRemoteBranchExist(branchName, repoRootPath) && defaultBranchNameSetting == null) {
-                branchName = "master"; // TODO: Make this dynamic!
+                branchName = getDefaultBranch(repoRootPath);
             }
 
             remoteUrl = getConfiguredRemoteUrl(repoRootPath);
@@ -96,6 +95,13 @@ public class GitUtil {
      */
     private static boolean doesRemoteBranchExist(String branchName, String repoDirectoryPath) throws IOException {
         return exec("git show-branch remotes/origin/" + branchName, repoDirectoryPath).length() > 0;
+    }
+
+    /**
+     * Returns the default branch of the repository.
+     */
+    private static String getDefaultBranch(String path) throws IOException {
+        return exec("git rev-parse --abbrev-ref origin/HEAD", path).trim().replace("origin/", "");
     }
 
     // exec executes the given command in the specified directory and returns
