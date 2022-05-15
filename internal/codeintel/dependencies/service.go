@@ -50,7 +50,7 @@ func newService(
 }
 
 // Dependencies resolves the (transitive) dependencies for a set of repository and revisions.
-// Both the input repoRevs and the output dependencyRevs are a map from repository names to revspecs.
+// Both the input repoRevs and the output `dependencyRevs `are a map from repository names to revspecs.
 func (s *Service) Dependencies(ctx context.Context, repoRevs map[api.RepoName]types.RevSpecSet) (dependencyRevs map[api.RepoName]types.RevSpecSet, err error) {
 	ctx, _, endObservation := s.operations.dependencies.With(ctx, &err, observation.Args{LogFields: constructLogFields(repoRevs)})
 	defer func() {
@@ -334,8 +334,34 @@ func (s *Service) sync(ctx context.Context, repos []api.RepoName) error {
 // Dependents resolves the (transitive) inverse dependencies for a set of repository and revisions.
 // Both the input repoRevs and the output dependencyRevs are a map from repository names to revspecs.
 func (s *Service) Dependents(ctx context.Context, repoRevs map[api.RepoName]types.RevSpecSet) (dependencyRevs map[api.RepoName]types.RevSpecSet, err error) {
-	// TODO
-	return nil, errors.New("unimplemented: dependencies.Dependents")
+	var deps []shared.PackageDependency // TODO - size
+	for repoName, revs := range repoRevs {
+		for rev := range revs {
+			// TODO - batch these requests in the store layer
+			repoDeps, err := s.dependenciesStore.LockfileDependents(ctx, string(repoName), string(rev))
+			if err != nil {
+				return nil, errors.Wrap(err, "store.LockfileDependents")
+			}
+			deps = append(deps, repoDeps...)
+		}
+
+	}
+
+	// Populate return value map from the given information.
+	dependencyRevs = make(map[api.RepoName]types.RevSpecSet, 0) // TODO - size
+
+	for _, dep := range deps {
+		repo := dep.RepoName()
+		rev := api.RevSpec(dep.GitTagFromVersion())
+
+		if _, ok := dependencyRevs[repo]; !ok {
+			dependencyRevs[repo] = types.RevSpecSet{}
+		}
+		dependencyRevs[repo][rev] = struct{}{}
+	}
+
+	// TODO - coordinate with https://github.com/sourcegraph/sourcegraph/pull/35446
+	return dependencyRevs, nil
 }
 
 func constructLogFields(repoRevs map[api.RepoName]types.RevSpecSet) []log.Field {
