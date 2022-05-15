@@ -4,6 +4,7 @@ import (
 	"archive/tar"
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"strings"
 	"time"
@@ -223,9 +224,17 @@ func (s *Service) setupRecognizers(ctx context.Context, sandbox *luasandbox.Sand
 	}
 
 	if overrideScript != "" {
-		// TODO - run this script and merge recognizer results
-		// See https://github.com/sourcegraph/sourcegraph/issues/33046
-		return nil, errors.Newf("unimplemented")
+		rawRecognizers, err := sandbox.RunScript(ctx, opts, overrideScript)
+		if err != nil {
+			return nil, err
+		}
+
+		recognizers2, err := luatypes.RecognizersFromUserDataMap(rawRecognizers)
+		if err != nil {
+			return nil, err
+		}
+
+		fmt.Printf("Recognizers2: %v\n", recognizers2)
 	}
 
 	return recognizers, nil
