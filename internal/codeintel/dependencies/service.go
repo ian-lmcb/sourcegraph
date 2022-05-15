@@ -125,7 +125,25 @@ func (s *Service) Dependencies(ctx context.Context, repoRevs map[api.RepoName]ty
 		return nil, err
 	}
 
-	// TODO - add query of lsif_{packages,references} here and merge results
+	for repoName, revs := range repoRevs {
+		for commit := range revs {
+			preciseDeps, err := s.dependenciesStore.PreciseDependencies(ctx, string(repoName), string(commit))
+			if err != nil {
+				// TODO - wrap
+				return nil, err
+			}
+
+			for rn, cs := range preciseDeps {
+				if _, ok := dependencyRevs[rn]; !ok {
+					dependencyRevs[rn] = types.RevSpecSet{}
+				}
+				for c := range cs {
+					dependencyRevs[rn][c] = struct{}{}
+				}
+			}
+		}
+	}
+
 	return dependencyRevs, nil
 }
 

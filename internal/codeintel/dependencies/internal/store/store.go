@@ -3,12 +3,15 @@ package store
 import (
 	"context"
 	"database/sql"
+	"errors"
 
 	"github.com/keegancsmith/sqlf"
 	"github.com/lib/pq"
 	"github.com/opentracing/opentracing-go/log"
 
+	"github.com/sourcegraph/sourcegraph/internal/api"
 	"github.com/sourcegraph/sourcegraph/internal/codeintel/dependencies/shared"
+	"github.com/sourcegraph/sourcegraph/internal/codeintel/types"
 	"github.com/sourcegraph/sourcegraph/internal/database/basestore"
 	"github.com/sourcegraph/sourcegraph/internal/database/batch"
 	"github.com/sourcegraph/sourcegraph/internal/database/dbutil"
@@ -45,6 +48,32 @@ func (s *Store) Transact(ctx context.Context) (*Store, error) {
 		operations: s.operations,
 	}, nil
 }
+
+// TODO - document
+// TODO - test
+func (s *Store) PreciseDependencies(ctx context.Context, repoName, commit string) (deps map[api.RepoName]types.RevSpecSet, err error) {
+	// TODO
+	_ = preciseDependenciesQuery
+	return nil, errors.New("unimplemented - PreciseDependencies")
+}
+
+const preciseDependenciesQuery = `
+-- source: internal/codeintel/dependencies/internal/store/store.go:PreciseDependencies
+TODO
+`
+
+// TODO - document
+// TODO - test
+func (s *Store) PreciseDependents(ctx context.Context, repoName, commit string) (deps map[api.RepoName]types.RevSpecSet, err error) {
+	// TODO
+	_ = preciseDependentsQuery
+	return nil, errors.New("unimplemented - PreciseDependents")
+}
+
+const preciseDependentsQuery = `
+-- source: internal/codeintel/dependencies/internal/store/store.go:PreciseDependents
+TODO
+`
 
 // LockfileDependencies returns package dependencies from a previous lockfiles result for
 // the given repository and commit. It is assumed that the given commit is the canonical
