@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 
 	"github.com/keegancsmith/sqlf"
 	"github.com/lib/pq"
@@ -52,14 +53,38 @@ func (s *Store) Transact(ctx context.Context) (*Store, error) {
 // TODO - document
 // TODO - test
 func (s *Store) PreciseDependencies(ctx context.Context, repoName, commit string) (deps map[api.RepoName]types.RevSpecSet, err error) {
-	// TODO
-	_ = preciseDependenciesQuery
+	// TODO - observe
+
+	rows, err := s.Query(ctx, sqlf.Sprintf(preciseDependenciesQuery, repoName, dbutil.CommitBytea(commit)))
+	if err != nil {
+		return nil, err
+	}
+	defer func() { err = basestore.CloseRows(rows, err) }()
+
+	for rows.Next() {
+		var repoName, commit string
+		if err := rows.Scan(&repoName, &commit); err != nil {
+			return nil, err
+		}
+
+		// TODO - populate map instead
+		fmt.Printf("> %v %v\n", repoName, commit)
+	}
+
 	return nil, errors.New("unimplemented - PreciseDependencies")
 }
 
 const preciseDependenciesQuery = `
 -- source: internal/codeintel/dependencies/internal/store/store.go:PreciseDependencies
-TODO
+SELECT r.name, u2.commit
+FROM lsif_packages p
+JOIN lsif_references r ON r.scheme = p.scheme AND r.name = p.name AND r.version = p.version
+JOIN lsif_uploads u1 ON u1.id = p.dump_id
+JOIN lsif_uploads u2 ON u2.id = r.dump_id
+JOiN repo r ON r.id = u2.repository_id
+WHERE
+	u1.repository_id = %s AND
+	u1.commit = %s
 `
 
 // TODO - document
