@@ -236,6 +236,34 @@ func populatePackageDependencyChannel(deps []shared.PackageDependency) <-chan []
 	return ch
 }
 
+// TODO - document
+// TODO - test
+func (s *Store) LockfileDependents(ctx context.Context, repoName, commit string) (deps []shared.PackageDependency, err error) {
+	// TODO - observe
+
+	return scanPackageDependencies(s.Query(ctx, sqlf.Sprintf(
+		lockfileDependentsQuery,
+		repoName,
+		dbutil.CommitBytea(commit),
+	)))
+}
+
+const lockfileDependentsQuery = `
+-- source: internal/codeintel/dependencies/internal/store/store.go:LockfileDependents
+SELECT
+	repository_id,
+	commit_bytea
+FROM codeintel_lockfiles
+WHERE
+	codeintel_lockfile_reference_ids @> (
+		SELECT array_agg(id)
+		FROM codeintel_lockfile_references
+		WHERE
+			repository_id = %s AND
+			commit_bytea = %s
+	)
+`
+
 type ListDependencyReposOpts struct {
 	Scheme      string
 	Name        string
